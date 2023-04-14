@@ -67,7 +67,7 @@ c_period.place(x=255, y=145)
 selected = IntVar()
 
 
-button = Radiobutton(frame_body, font=('ivy 8 bold'), value= 1, text="Set Alarm")
-button.place(x=305, y=145)
+button = Radiobutton(frame_body, font=("ivy 8 bold"), value= 1, text="Set Alarm")
+button.place(x=325, y=145)
 
 window.mainloop()
