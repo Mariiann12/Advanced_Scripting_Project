@@ -13,9 +13,11 @@ window.mainloop()
 
 
 def sound_alarm():
-    mixer.music.load('alarm_Medication.mp3')
+    mixer.music.load('buzzer.wav')
     mixer.music.play()
 
 mixer.init()
+sound_alarm()
+
 
 window.mainloop()
