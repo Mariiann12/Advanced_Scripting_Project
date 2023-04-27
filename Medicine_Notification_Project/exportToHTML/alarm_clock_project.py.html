@@ -1,0 +1,199 @@
+<html>
+<head>
+<title>alarm_clock_project.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+.s1 { color: #808080;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+alarm_clock_project.py</font>
+</center></td></tr></table>
+<pre>
+<span class="s1"># This is my final project file ###</span>
+
+
+
+<span class="s1"># Importing all the needed packages</span>
+<span class="s2">from </span><span class="s0">tkinter.ttk </span><span class="s2">import </span><span class="s0">*</span>
+<span class="s2">from </span><span class="s0">tkinter </span><span class="s2">import </span><span class="s0">*</span>
+
+<span class="s1"># sleep need to count in seconds for alarm</span>
+<span class="s2">from </span><span class="s0">time </span><span class="s2">import </span><span class="s0">sleep</span>
+<span class="s1"># Get current local time</span>
+<span class="s2">from </span><span class="s0">datetime </span><span class="s2">import </span><span class="s0">datetime</span>
+<span class="s1"># used to play sounds</span>
+<span class="s2">from </span><span class="s0">pygame </span><span class="s2">import </span><span class="s0">mixer</span>
+<span class="s1"># used for multi functions, used for alarm function</span>
+<span class="s2">from </span><span class="s0">threading </span><span class="s2">import </span><span class="s0">Thread</span>
+
+<span class="s1"># For image support</span>
+<span class="s2">from </span><span class="s0">PIL </span><span class="s2">import </span><span class="s0">ImageTk</span><span class="s2">, </span><span class="s0">Image</span>
+
+<span class="s1"># Colours for Window</span>
+
+
+<span class="s1"># light grey</span>
+<span class="s0">bg_color = </span><span class="s3">'#FAF9F6'</span>
+<span class="s1"># dark grey</span>
+<span class="s0">line_colour = </span><span class="s3">&quot;#5A5A5A&quot;</span>
+<span class="s1"># medium grey</span>
+<span class="s0">body_colour = </span><span class="s3">&quot;#939799&quot;</span>
+<span class="s1"># dark teal blue</span>
+<span class="s0">notification_bg = </span><span class="s3">&quot;#11bfb1&quot;</span>
+
+<span class="s1"># create window for Alarm Clock</span>
+<span class="s0">window = Tk()</span>
+
+<span class="s1"># notice at top of window</span>
+<span class="s0">window.title(</span><span class="s3">&quot;Alarm:&quot;</span><span class="s0">)</span>
+<span class="s0">window.geometry(</span><span class="s3">'550x400'</span><span class="s0">)</span>
+<span class="s0">window.configure(bg=bg_color)</span>
+
+<span class="s1"># lining around frame of window</span>
+<span class="s0">frame_line = Frame(window</span><span class="s2">, </span><span class="s0">width=</span><span class="s4">500</span><span class="s2">, </span><span class="s0">height=</span><span class="s4">8</span><span class="s2">, </span><span class="s0">bg=</span><span class="s3">'black'</span><span class="s0">)</span>
+<span class="s0">frame_line.grid(row=</span><span class="s4">0</span><span class="s2">, </span><span class="s0">column=</span><span class="s4">0</span><span class="s0">)</span>
+
+<span class="s1"># body of the frame within the window customizations</span>
+<span class="s0">frame_body = Frame(window</span><span class="s2">, </span><span class="s0">width=</span><span class="s4">550</span><span class="s2">, </span><span class="s0">height=</span><span class="s4">400</span><span class="s2">, </span><span class="s0">bg=body_colour)</span>
+<span class="s0">frame_body.grid(row=</span><span class="s4">0</span><span class="s2">, </span><span class="s0">column=</span><span class="s4">0</span><span class="s0">)</span>
+
+<span class="s1"># Image of Clock for window</span>
+<span class="s0">image = Image.open(</span><span class="s3">'.idea/clock_image.png'</span><span class="s0">)</span>
+<span class="s0">image.resize((</span><span class="s4">35</span><span class="s2">, </span><span class="s4">35</span><span class="s0">))</span>
+
+<span class="s1"># image support needed from pillow</span>
+<span class="s0">image = ImageTk.PhotoImage(image)</span>
+
+<span class="s0">application_Image = Label(frame_body</span><span class="s2">, </span><span class="s0">image=image)</span>
+<span class="s0">application_Image.place(x=</span><span class="s4">5</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">10</span><span class="s0">)</span>
+
+<span class="s1"># Heading on window page</span>
+<span class="s0">name = Label(frame_body</span><span class="s2">, </span><span class="s0">text=</span><span class="s3">&quot;Set Notification&quot;</span><span class="s2">, </span><span class="s0">height=</span><span class="s4">2</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'Ivy 18 bold'</span><span class="s2">, </span><span class="s0">bg=notification_bg)</span>
+<span class="s0">name.place(x=</span><span class="s4">115</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">15</span><span class="s0">)</span>
+
+<span class="s1"># Alarm time title text</span>
+<span class="s0">hour = Label(frame_body</span><span class="s2">, </span><span class="s0">text=</span><span class="s3">&quot;Alarm Time: &quot;</span><span class="s2">, </span><span class="s0">height=</span><span class="s4">1</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'Ivy 16 bold'</span><span class="s2">, </span><span class="s0">bg=line_colour</span><span class="s2">, </span><span class="s0">fg=bg_color)</span>
+<span class="s0">hour.place(x=</span><span class="s4">125</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">85</span><span class="s0">)</span>
+
+<span class="s1"># label from hour</span>
+<span class="s0">hour = Label(frame_body</span><span class="s2">, </span><span class="s0">text=</span><span class="s3">&quot;Hour: &quot;</span><span class="s2">, </span><span class="s0">height=</span><span class="s4">1</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'Ivy 16 bold'</span><span class="s2">, </span><span class="s0">bg=line_colour</span><span class="s2">, </span><span class="s0">fg=bg_color)</span>
+<span class="s0">hour.place(x=</span><span class="s4">125</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">145</span><span class="s0">)</span>
+
+<span class="s1"># hour setting:</span>
+<span class="s0">c_hour = Combobox(frame_body</span><span class="s2">, </span><span class="s0">width=</span><span class="s4">4</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'arial 15'</span><span class="s0">)</span>
+<span class="s0">c_hour[</span><span class="s3">'values'</span><span class="s0">] = (</span><span class="s3">&quot;00&quot;</span><span class="s2">, </span><span class="s3">&quot;01&quot;</span><span class="s2">, </span><span class="s3">&quot;02&quot;</span><span class="s2">, </span><span class="s3">&quot;03&quot;</span><span class="s2">, </span><span class="s3">&quot;04&quot;</span><span class="s2">, </span><span class="s3">&quot;05&quot;</span><span class="s2">, </span><span class="s3">&quot;06&quot;</span><span class="s2">, </span><span class="s3">&quot;07&quot;</span><span class="s2">, </span><span class="s3">&quot;08&quot;</span><span class="s2">, </span><span class="s3">&quot;09&quot;</span><span class="s2">, </span><span class="s3">&quot;10&quot;</span><span class="s2">, </span><span class="s3">&quot;11&quot;</span><span class="s2">, </span><span class="s3">&quot;12&quot;</span><span class="s0">)</span>
+<span class="s0">c_hour.current(</span><span class="s4">0</span><span class="s0">)</span>
+<span class="s0">c_hour.place(x=</span><span class="s4">125</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">175</span><span class="s0">)</span>
+
+<span class="s1"># label for minutes</span>
+<span class="s0">min_print = Label(frame_body</span><span class="s2">, </span><span class="s0">text=</span><span class="s3">&quot;Min:   &quot;</span><span class="s2">, </span><span class="s0">height=</span><span class="s4">1</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'Ivy 16 bold'</span><span class="s2">, </span><span class="s0">bg=line_colour</span><span class="s2">, </span><span class="s0">fg=bg_color)</span>
+<span class="s0">min_print.place(x=</span><span class="s4">195</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">145</span><span class="s0">)</span>
+
+<span class="s1"># setting minutes:</span>
+<span class="s0">c_min = Combobox(frame_body</span><span class="s2">, </span><span class="s0">width=</span><span class="s4">4</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'arial 15'</span><span class="s0">)</span>
+<span class="s0">c_min[</span><span class="s3">'values'</span><span class="s0">] = (</span>
+    <span class="s3">&quot;00&quot;</span><span class="s2">, </span><span class="s3">&quot;01&quot;</span><span class="s2">, </span><span class="s3">&quot;02&quot;</span><span class="s2">, </span><span class="s3">&quot;03&quot;</span><span class="s2">, </span><span class="s3">&quot;04&quot;</span><span class="s2">, </span><span class="s3">&quot;05&quot;</span><span class="s2">, </span><span class="s3">&quot;06&quot;</span><span class="s2">, </span><span class="s3">&quot;07&quot;</span><span class="s2">, </span><span class="s3">&quot;08&quot;</span><span class="s2">, </span><span class="s3">&quot;09&quot;</span><span class="s2">, </span><span class="s3">&quot;10&quot;</span><span class="s2">, </span><span class="s3">&quot;11&quot;</span><span class="s2">, </span><span class="s3">&quot;12&quot;</span><span class="s2">, </span><span class="s3">&quot;13&quot;</span><span class="s2">, </span><span class="s3">&quot;14&quot;</span><span class="s2">, </span><span class="s3">&quot;15&quot;</span><span class="s2">, </span><span class="s3">&quot;16&quot;</span><span class="s2">, </span><span class="s3">&quot;17&quot;</span><span class="s2">, </span><span class="s3">&quot;18&quot;</span><span class="s2">,</span>
+    <span class="s3">&quot;19&quot;</span><span class="s2">,</span>
+    <span class="s3">&quot;20&quot;</span><span class="s2">, </span><span class="s3">&quot;21&quot;</span><span class="s2">, </span><span class="s3">&quot;22&quot;</span><span class="s2">, </span><span class="s3">&quot;23&quot;</span><span class="s2">, </span><span class="s3">&quot;24&quot;</span><span class="s2">, </span><span class="s3">&quot;25&quot;</span><span class="s2">, </span><span class="s3">&quot;26&quot;</span><span class="s2">, </span><span class="s3">&quot;27&quot;</span><span class="s2">, </span><span class="s3">&quot;28&quot;</span><span class="s2">, </span><span class="s3">&quot;29&quot;</span><span class="s2">, </span><span class="s3">&quot;30&quot;</span><span class="s2">, </span><span class="s3">&quot;31&quot;</span><span class="s2">, </span><span class="s3">&quot;32&quot;</span><span class="s2">, </span><span class="s3">&quot;33&quot;</span><span class="s2">, </span><span class="s3">&quot;34&quot;</span><span class="s2">, </span><span class="s3">&quot;35&quot;</span><span class="s2">, </span><span class="s3">&quot;36&quot;</span><span class="s2">, </span><span class="s3">&quot;37&quot;</span><span class="s2">, </span><span class="s3">&quot;38&quot;</span><span class="s2">,</span>
+    <span class="s3">&quot;39&quot;</span><span class="s2">,</span>
+    <span class="s3">&quot;40&quot;</span><span class="s2">, </span><span class="s3">&quot;41&quot;</span><span class="s2">, </span><span class="s3">&quot;42&quot;</span><span class="s2">, </span><span class="s3">&quot;43&quot;</span><span class="s2">, </span><span class="s3">&quot;44&quot;</span><span class="s2">, </span><span class="s3">&quot;45&quot;</span><span class="s2">, </span><span class="s3">&quot;46&quot;</span><span class="s2">, </span><span class="s3">&quot;47&quot;</span><span class="s2">, </span><span class="s3">&quot;48&quot;</span><span class="s2">, </span><span class="s3">&quot;49&quot;</span><span class="s2">, </span><span class="s3">&quot;50&quot;</span><span class="s2">, </span><span class="s3">&quot;51&quot;</span><span class="s2">, </span><span class="s3">&quot;52&quot;</span><span class="s2">, </span><span class="s3">&quot;53&quot;</span><span class="s2">, </span><span class="s3">&quot;54&quot;</span><span class="s2">, </span><span class="s3">&quot;55&quot;</span><span class="s2">, </span><span class="s3">&quot;56&quot;</span><span class="s2">, </span><span class="s3">&quot;57&quot;</span><span class="s2">, </span><span class="s3">&quot;58&quot;</span><span class="s2">,</span>
+    <span class="s3">&quot;59&quot;</span><span class="s0">)</span>
+<span class="s0">c_min.current(</span><span class="s4">0</span><span class="s0">)</span>
+<span class="s0">c_min.place(x=</span><span class="s4">195</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">175</span><span class="s0">)</span>
+
+<span class="s1"># label for period of time</span>
+<span class="s0">period = Label(frame_body</span><span class="s2">, </span><span class="s0">text=</span><span class="s3">&quot;AM/PM: &quot;</span><span class="s2">, </span><span class="s0">height=</span><span class="s4">1</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'Ivy 16 bold'</span><span class="s2">, </span><span class="s0">bg=line_colour</span><span class="s2">, </span><span class="s0">fg=bg_color)</span>
+<span class="s0">period.place(x=</span><span class="s4">265</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">145</span><span class="s0">)</span>
+<span class="s1"># setting period of time</span>
+<span class="s0">c_period = Combobox(frame_body</span><span class="s2">, </span><span class="s0">width=</span><span class="s4">4</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'arial 15'</span><span class="s0">)</span>
+<span class="s0">c_period[</span><span class="s3">'values'</span><span class="s0">] = (</span><span class="s3">&quot;AM&quot;</span><span class="s2">, </span><span class="s3">&quot;PM&quot;</span><span class="s0">)</span>
+<span class="s0">c_period.current(</span><span class="s4">0</span><span class="s0">)</span>
+<span class="s0">c_period.place(x=</span><span class="s4">265</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">175</span><span class="s0">)</span>
+
+
+<span class="s1"># defined function to start the alarm action</span>
+<span class="s2">def </span><span class="s0">activate_alarm():</span>
+    <span class="s0">t = Thread(target=alarm)</span>
+    <span class="s0">t.start()</span>
+
+
+<span class="s1"># Function to stop alarm sound</span>
+<span class="s2">def </span><span class="s0">deactivate_alarm():</span>
+    <span class="s0">print(</span><span class="s3">'Deactivated alarm: '</span><span class="s2">, </span><span class="s0">selected.get())</span>
+    <span class="s0">mixer.music.stop()</span>
+
+
+<span class="s0">selected = IntVar()</span>
+<span class="s1"># radio button to activate the alarm for the time selected</span>
+<span class="s0">button = Radiobutton(frame_body</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">&quot;ivy 12 bold&quot;</span><span class="s2">, </span><span class="s0">value=</span><span class="s4">1</span><span class="s2">, </span><span class="s0">text=</span><span class="s3">&quot;Set Alarm&quot;</span><span class="s2">, </span><span class="s0">command=activate_alarm</span><span class="s2">,</span>
+                     <span class="s0">variable=selected)</span>
+<span class="s0">button.place(x=</span><span class="s4">365</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">135</span><span class="s0">)</span>
+
+
+<span class="s1"># function to play music when the conditions are meet for the alarm time and period</span>
+<span class="s2">def </span><span class="s0">sound_alarm():</span>
+    <span class="s1"># plays sound included in folder</span>
+    <span class="s0">mixer.music.load(</span><span class="s3">'buzzer.wav'</span><span class="s0">)</span>
+    <span class="s0">mixer.music.play()</span>
+    <span class="s1"># selected changed to 0</span>
+    <span class="s0">selected.set(</span><span class="s4">0</span><span class="s0">)</span>
+
+    <span class="s0">d_button = Radiobutton(frame_body</span><span class="s2">, </span><span class="s0">font=</span><span class="s3">'ivy 16 bold'</span><span class="s2">, </span><span class="s0">value=</span><span class="s4">2</span><span class="s2">, </span><span class="s0">text=</span><span class="s3">&quot;Turn off Alarm&quot;</span><span class="s2">, </span><span class="s0">bg=bg_color</span><span class="s2">,</span>
+                           <span class="s0">command=deactivate_alarm</span><span class="s2">, </span><span class="s0">variable=selected)</span>
+    <span class="s0">d_button.place(x=</span><span class="s4">35</span><span class="s2">, </span><span class="s0">y=</span><span class="s4">325</span><span class="s0">)</span>
+
+
+<span class="s1"># Defined function that sets conditions for alarm</span>
+<span class="s2">def </span><span class="s0">alarm():</span>
+    <span class="s2">while True</span><span class="s0">:</span>
+
+        <span class="s1"># control is determined by select status (1)</span>
+        <span class="s0">control = selected.get()</span>
+
+        <span class="s1"># prints in terminal for monitoring, shows count</span>
+        <span class="s0">print(control)</span>
+        <span class="s1"># variables used to store desired time for alarm</span>
+        <span class="s0">alarm_hour = c_hour.get()</span>
+        <span class="s0">alarm_min = c_min.get()</span>
+        <span class="s0">alarm_period = c_period.get()</span>
+        <span class="s1"># needed to be changed to upper</span>
+        <span class="s0">alarm_period = str(alarm_period).upper()</span>
+
+        <span class="s1"># variable for current time</span>
+        <span class="s0">now = datetime.now()</span>
+
+        <span class="s1"># vars for current time (H,M and period)</span>
+        <span class="s0">now_hour = now.strftime(</span><span class="s3">&quot;%I&quot;</span><span class="s0">)</span>
+        <span class="s0">print(now_hour)</span>
+        <span class="s0">now_minutes = now.strftime(</span><span class="s3">&quot;%M&quot;</span><span class="s0">)</span>
+        <span class="s0">print(now_minutes)</span>
+        <span class="s0">now_period = now.strftime(</span><span class="s3">&quot;%p&quot;</span><span class="s0">)</span>
+        <span class="s0">print(now_period)</span>
+        <span class="s1"># if statement for conditions to be meet for alarm</span>
+        <span class="s2">if </span><span class="s0">control == </span><span class="s4">1</span><span class="s0">:</span>
+            <span class="s2">if </span><span class="s0">alarm_period == now_period:</span>
+                <span class="s2">if </span><span class="s0">alarm_hour == now_hour:</span>
+                    <span class="s2">if </span><span class="s0">alarm_min == now_minutes:</span>
+                        <span class="s0">print(</span><span class="s3">&quot;Alarm!&quot;</span><span class="s0">)</span>
+                        <span class="s1"># Calls function when alarm and current times are the same</span>
+                        <span class="s0">sound_alarm()</span>
+        <span class="s1"># counts in second intervals</span>
+        <span class="s0">sleep(</span><span class="s4">1</span><span class="s0">)</span>
+
+
+<span class="s1"># for pygame, for playing sound</span>
+<span class="s0">mixer.init()</span>
+
+<span class="s1"># end of window page loop</span>
+<span class="s0">window.mainloop()</span>
+</pre>
+</body>
+</html>
