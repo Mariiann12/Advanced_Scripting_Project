@@ -5,20 +5,15 @@
 from tkinter.ttk import *
 from tkinter import *
 
-# sleep need to count in seconds for alarm
 from time import sleep
-# Get current local time
 from datetime import datetime
-# used to play sounds
 from pygame import mixer
-# used for multi functions, used for alarm function
 from threading import Thread
 
 # For image support
 from PIL import ImageTk, Image
 
 # Colours for Window
-
 
 # light grey
 bg_color = '#FAF9F6'
@@ -49,9 +44,7 @@ frame_body.grid(row=0, column=0)
 image = Image.open('.idea/clock_image.png')
 image.resize((35, 35))
 
-# image support needed from pillow
 image = ImageTk.PhotoImage(image)
-
 application_Image = Label(frame_body, image=image)
 application_Image.place(x=5, y=10)
 
@@ -123,7 +116,6 @@ def sound_alarm():
     # plays sound included in folder
     mixer.music.load('buzzer.wav')
     mixer.music.play()
-    # selected changed to 0
     selected.set(0)
 
     d_button = Radiobutton(frame_body, font='ivy 16 bold', value=2, text="Turn off Alarm", bg=bg_color,
@@ -140,11 +132,10 @@ def alarm():
 
         # prints in terminal for monitoring, shows count
         print(control)
-        # variables used to store desired time for alarm
+
         alarm_hour = c_hour.get()
         alarm_min = c_min.get()
         alarm_period = c_period.get()
-        # needed to be changed to upper
         alarm_period = str(alarm_period).upper()
 
         # variable for current time
@@ -165,7 +156,6 @@ def alarm():
                         print("Alarm!")
                         # Calls function when alarm and current times are the same
                         sound_alarm()
-        # counts in second intervals
         sleep(1)
 
 
